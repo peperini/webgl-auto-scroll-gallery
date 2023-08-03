@@ -28,7 +28,6 @@ body {
   position: absolute;
   width: 36rem;
   height: 41.5rem;
-  visibility: hidden;
 
   &:nth-child(1) {
     left: -21rem;

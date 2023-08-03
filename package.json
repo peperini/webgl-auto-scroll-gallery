@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "ogl": "^1.0.0",
     "vite": "^4.4.5"
   }
 }
