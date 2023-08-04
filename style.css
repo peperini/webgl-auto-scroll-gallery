@@ -22,6 +22,7 @@ body {
   height: 100vh;
   position: relative;
   overflow: hidden;
+  visibility: hidden;
 }
 
 .demo__gallery__media {

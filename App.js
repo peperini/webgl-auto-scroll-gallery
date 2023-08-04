@@ -1,3 +1,4 @@
+import Media from '/Media'
 import { Renderer, Camera, Transform, Plane } from 'ogl'
 
 class App {
@@ -118,3 +119,5 @@ class App {
         window.addEventListener('wheel', this.onWheel.bind(this))
     }
 }
+
+new App()
