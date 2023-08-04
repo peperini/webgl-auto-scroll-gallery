@@ -23,6 +23,7 @@ body {
   position: relative;
   overflow: hidden;
   visibility: hidden;
+  display: none;
 }
 
 .demo__gallery__media {

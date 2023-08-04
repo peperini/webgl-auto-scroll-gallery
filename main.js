@@ -1,8 +1,6 @@
-import Media from '/Media'
 import { Renderer, Camera, Transform, Plane } from 'ogl'
 
-import './reset.css'
-import './style.css'
+import Media from '/Media'
 
 class App {
     constructor () {
@@ -11,6 +9,9 @@ class App {
         this.createScene()
 
         this.onResize()
+
+        this.createGeometry()
+        this.createMedias()
 
         this.update()
 
@@ -73,7 +74,7 @@ class App {
             width: window.innerWidth
         }
 
-        this.renderer.setSize(this.screen.width, this.screen.width)
+        this.renderer.setSize(this.screen.width, this.screen.height)
 
         this.camera.perspective({
             aspect: this.gl.canvas.width / this.gl.canvas.height
@@ -100,10 +101,10 @@ class App {
     // Update
 
     update () {
-        this.renderer.render({
-            scene: this.scene,
-            camera: this.camera
-        })
+        // this.renderer.render({
+        //     scene: this.scene,
+        //     camera: this.camera
+        // })
 
         if (this.medias) {
             this.medias.forEach(media => media.update())
@@ -117,7 +118,7 @@ class App {
 
     addEventListeners () {
         window.addEventListener('resize', this.onResize.bind(this))
-
+     
         window.addEventListener('mousewheel', this.onWheel.bind(this))
         window.addEventListener('wheel', this.onWheel.bind(this))
     }
