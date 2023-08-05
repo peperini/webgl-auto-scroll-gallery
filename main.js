@@ -101,10 +101,10 @@ class App {
     // Update
 
     update () {
-        // this.renderer.render({
-        //     scene: this.scene,
-        //     camera: this.camera
-        // })
+        this.renderer.render({
+            scene: this.scene,
+            camera: this.camera
+        })
 
         if (this.medias) {
             this.medias.forEach(media => media.update())
