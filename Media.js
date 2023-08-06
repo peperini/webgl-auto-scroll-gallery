@@ -38,7 +38,9 @@ export default class {
             uniforms: {
                 tMap: { value: texture },
                 uPlaneSizes: { value: [0, 0] },
-                uImageSizes: { value: [0, 0] }
+                uImageSizes: { value: [0, 0] },
+                uViewportSizes: { value: [this.viewport.width, this.viewport.height] },
+                uStrength: { value: 0 }
             },
             transparent: true
         })
@@ -77,7 +79,7 @@ export default class {
     update (y, direction) {
         this.updateScale()
         this.updateX()
-        this.updateY(y)
+        this.updateY(y.current)
 
         const planeOffset = this.plane.scale.y / 2
         const viewportOffset = this.viewport.height / 2
@@ -98,6 +100,8 @@ export default class {
             this.isBefore = false
             this.isAfter = false
         }
+
+        this.plane.program.uniforms.uStrength.value = ((y.current - y.last) / this.screen.width) * 10
     }
 
     onResize (sizes) {
@@ -108,7 +112,11 @@ export default class {
             
             if (height) this.height = height
             if (screen) this.screen = screen
-            if (viewport) this.viewport = viewport
+            if (viewport) {
+                this.viewport = viewport
+
+                this.plane.program.uniforms.uViewportSizes.value = [this.viewport.width, this.viewport.height]
+            }
         }
        
         this.createBounds()

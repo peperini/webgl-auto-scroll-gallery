@@ -1,13 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 *, *:after, *:before  {
   box-sizing: border-box;
   user-select: none;
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -17,10 +18,19 @@
 
 html {
   font-size: calc(100vw / 1440 * 10);
+  background: #000;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  user-select: none;
+  width: 100%;
 }
 
 body {
-  background: #000;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
 }
 
 .demo__gallery {

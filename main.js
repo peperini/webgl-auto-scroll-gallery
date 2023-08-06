@@ -13,6 +13,8 @@ class App {
             last: 0
         }
 
+        this.speed = 2
+
         this.createRenderer()
         this.createCamera()
         this.createScene()
@@ -74,8 +76,28 @@ class App {
     }
 
 
-    // Wheel
+    // Events
 
+    onTouchDown (event) {
+        this.isDown = true
+
+        this.scroll.position = this.scroll.current
+        this.start = event.touches ? event.touches[0].clientY : event.clientY
+    }
+
+    onTouchMove (event) {
+        if (!this.isDown) return
+
+        const y = event.touches ? event.touches[0].clientY : event.clientY
+        const distance = (this.start - y) * 2
+
+        this.scroll.target = this.scroll.position + distance
+    }
+
+    onTouchUp (event) {
+        this.isDown = false
+    }
+ 
     onWheel (event) {
         const normalized = NormalizeWheel(event)
         const speed = normalized.pixelY
@@ -123,16 +145,20 @@ class App {
     // Update
 
     update () {
+        this.scroll.target += this.speed
+
         this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease)
 
         if (this.scroll.current > this.scroll.last) {
             this.direction = 'down'
+            this.speed = 2
         } else if (this.scroll.current < this.scroll.last) {
             this.direction = 'up'
+            this.speed = -2
         }
 
         if (this.medias) {
-            this.medias.forEach(media => media.update(this.scroll.current, this.direction))
+            this.medias.forEach(media => media.update(this.scroll, this.direction))
         }
 
         this.renderer.render({
@@ -153,6 +179,14 @@ class App {
      
         window.addEventListener('mousewheel', this.onWheel.bind(this))
         window.addEventListener('wheel', this.onWheel.bind(this))
+
+        window.addEventListener('mousedown', this.onTouchDown.bind(this))
+        window.addEventListener('mousemove', this.onTouchMove.bind(this))
+        window.addEventListener('mouseup', this.onTouchUp.bind(this))
+
+        window.addEventListener('touchstart', this.onTouchDown.bind(this))
+        window.addEventListener('touchmove', this.onTouchMove.bind(this))
+        window.addEventListener('touchend', this.onTouchUp.bind(this))
     }
 }
 
