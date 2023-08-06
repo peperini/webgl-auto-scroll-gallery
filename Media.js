@@ -42,7 +42,7 @@ export default class {
                 uViewportSizes: { value: [this.viewport.width, this.viewport.height] },
                 uStrength: { value: 0 }
             },
-            transparent: true
+            transparent: true,
         })
 
         this.plane = new Mesh(this.gl, {

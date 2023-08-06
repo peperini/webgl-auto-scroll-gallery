@@ -36,7 +36,8 @@ class App {
 
     createRenderer () {
         this.renderer = new Renderer({
-            alpha: true
+            alpha: true,
+            antialias: true
         });
 
         this.gl = this.renderer.gl
