@@ -1,3 +1,8 @@
+*, *:after, *:before  {
+  box-sizing: border-box;
+  user-select: none;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -19,11 +24,10 @@ body {
 }
 
 .demo__gallery {
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
+  height: 169rem;
+  position: absolute;
   visibility: hidden;
-  display: none;
+  overflow: hidden;
 }
 
 .demo__gallery__media {

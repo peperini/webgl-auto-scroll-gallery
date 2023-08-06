@@ -4,12 +4,14 @@ import fragment from '/shaders/fragment.glsl'
 import vertex from '/shaders/vertex.glsl'
 
 export default class {
-    constructor ({ element, geo, gl, scene, screen, viewport }) {
+    constructor ({ element, geometry, gl, height, scene, screen, viewport }) {
         this.element = element
         this.image = this.element.querySelector('img')
 
-        this.geo = geo
+        this.extra = 0
+        this.geometry = geometry
         this.gl = gl
+        this.height = height
         this.scene = scene
         this.screen = screen
         this.viewport = viewport
@@ -26,6 +28,7 @@ export default class {
 
         image.src = this.image.src
         image.onload = () => {
+            program.uniforms.uImageSizes.value = [image.naturalWidth, image.naturalHeight]
             texture.image = image
         }
 
@@ -34,14 +37,14 @@ export default class {
             vertex,
             uniforms: {
                 tMap: { value: texture },
-                uScreenSizes: { value: [0, 0] },
+                uPlaneSizes: { value: [0, 0] },
                 uImageSizes: { value: [0, 0] }
             },
             transparent: true
         })
 
         this.plane = new Mesh(this.gl, {
-            geometry: this.geo,
+            geometry: this.geometry,
             program
         })
 
@@ -54,6 +57,8 @@ export default class {
         this.updateScale()
         this.updateX()
         this.updateY()
+
+        this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y]
     }
 
     updateScale () {
@@ -66,21 +71,44 @@ export default class {
     }
 
     updateY (y = 0) {
-        this.plane.position.y = (this.viewport.height / 2) - (this.plane.scale.y / 2) - ((this.bounds.top - y) / this.screen.height) * this.viewport.height
+        this.plane.position.y = ((this.viewport.height / 2) - (this.plane.scale.y / 2) - ((this.bounds.top - y) / this.screen.height) * this.viewport.height) - this.extra
     }
 
-    update (y) {
+    update (y, direction) {
         this.updateScale()
         this.updateX()
         this.updateY(y)
+
+        const planeOffset = this.plane.scale.y / 2
+        const viewportOffset = this.viewport.height / 2
+
+        this.isBefore = this.plane.position.y + planeOffset < -viewportOffset
+        this.isAfter = this.plane.position.y - planeOffset > viewportOffset
+
+        if (direction === 'up' && this.isBefore) {
+            this.extra -= this.height
+
+            this.isBefore = false
+            this.isAfter = false
+        }
+
+        if (direction === 'down' && this.isAfter) {
+            this.extra += this.height
+
+            this.isBefore = false
+            this.isAfter = false
+        }
     }
 
     onResize (sizes) {
+        this.extra = 0
+
         if (sizes) {
-          const { screen, viewport } = sizes
-       
-          if (screen) this.screen = screen
-          if (viewport) this.viewport = viewport
+            const { height, screen, viewport } = sizes
+            
+            if (height) this.height = height
+            if (screen) this.screen = screen
+            if (viewport) this.viewport = viewport
         }
        
         this.createBounds()

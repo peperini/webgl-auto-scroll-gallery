@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "normalize-wheel": "^1.0.1",
     "ogl": "^0.0.86",
     "vite": "^4.4.5",
     "vite-plugin-glsl": "^1.1.2"
