@@ -8,7 +8,7 @@ WebGL auto-scrollable infinite image gallery for the Cercas Humaya webiste that 
 
 To run this project locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/Peperini/auto-scroll-gallery.git`
+1. Clone the repository: `git clone https://github.com/peperini/auto-scroll-gallery.git`
 2. Install dependencies: `npm install`
 3. Start the development server: `npm run dev`
 
